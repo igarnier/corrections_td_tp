@@ -437,7 +437,7 @@ int recherche_lineaire(int t[], int n, int x)
 
 /* Exercice 2: point fixe
 
-   Dans la suite, on considère un tableau T *trié*
+   Dans la suite, on considère un tableau T *trié* où tous les éléments sont distincts
 
    1. 
          0; 1; 2; 3; 4; 5
