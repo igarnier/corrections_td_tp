@@ -4,37 +4,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-int test()
-{
-     srand(1);
-
-     pid_t pid = - 1;
-
-     int *p_status = NULL;
-     int nbr_aleatoire = 0;
-
-     for(int i = 0; i < 13; i++) {
-          nbr_aleatoire = rand()%8 ;
-
-          pid = fork();
-
-          if(pid == -1) {
-
-          } else if(pid == 0) {
-               const int ppid = getppid();
-               const int spid = getpid();
-               printf("%d, fils %d, pere %d\n", nbr_aleatoire, spid, ppid);
-
-               exit(0);
-          }
-     }
-
-     return 0;
-}
-
-
-
 void exo1()
 {
      const char* chaine1 = "tut ";
@@ -48,13 +17,13 @@ void exo1()
      } else if(pid == 0) {
           /* fils */
           while(1)
-               write(1, chaine2, 6);
+               write(1, chaine2, strlen(chaine2));
      } else {
           /* parent */
 
           /* write the parent message */
           while(1)
-               write(1, chaine1, 4);
+               write(1, chaine1, strlen(chaine1));
 
           /* wait for child to die */
           int wstatus = 0;
@@ -128,13 +97,14 @@ void exo3()
                          layer1[j] = fork();
 
                          if(layer1[j] == -1) {
+                              /* erreur de fork */
                               exit(1);
                          } else if(layer1[j] == 0) {
                               processus_feuille();
                          }
                     }
 
-                    /* le premier fils attend la mort de ses propres fils */
+                    /* le premier fils attend la mort de ses 2 propres fils */
                     attendre_mort(layer1, 2);
                     exit(0);
                } else {
@@ -143,12 +113,13 @@ void exo3()
           }
      }
 
-
+     /* le processus père attend la mort de ses 3 fils */
      attendre_mort(layer0, 3);
 }
 
 void cherche_42(int* tableau, int debut, int fin)
 {
+     sleep(10);
      for(int i = debut; i < fin; i++) {
           if(tableau[i] == 42) {
                printf("proc %d : indice %d\n", getpid(), i);
@@ -174,7 +145,6 @@ void cherche_rec(int* tableau, int debut, int fin, int prof)
           } else {
                cherche_rec(tableau, debut, milieu, prof - 1);
                waitpid(pid, NULL, 0);
-               exit(0);
           }
      }
 }
@@ -211,6 +181,9 @@ void exo4(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-     test();
+     /* exo1(); */
+     /* exo2(); */
+     /* exo3(); */
+     exo4(argc, argv);
      return 0;
 }
